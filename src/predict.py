@@ -41,11 +41,11 @@ def preprocess_input(df):
 
     # Map day_of_week string to integer if needed
     if df["day_of_week"].dtype == object:
-        df["day_of_week"] = df["day_of_week"].map(DAY_MAP)
+        df["day_of_week"] = df["day_of_week"].str.strip().str.capitalize().map(DAY_MAP)
 
     # Map traffic_level
     if df["traffic_level"].dtype == object:
-        df["traffic_level"] = df["traffic_level"].str.strip().map(TRAFFIC_MAP)
+        df["traffic_level"] = df["traffic_level"].str.strip().str.capitalize().map(TRAFFIC_MAP)
 
     # Check mandatory columns
     missing_cols = [col for col in FEATURES_NUMERIC + FEATURES_CAT if col not in df.columns]
@@ -64,9 +64,10 @@ def predict_delivery(df, model, encoder):
     X_final = np.hstack([df_numeric, weather_encoded])
 
     df["predicted_delivery_time"] = model.predict(X_final)
+    print("Prediction completed.")
     return df[["predicted_delivery_time"]]
 
-def predict_from_csv(csv_path, output_path="results/tables/predictions.csv"):
+def predict_from_csv(csv_path, output_path=r"results/tables/predictions.csv"):
     """Load CSV, predict, and save results."""
     df = pd.read_csv(csv_path)
     model, encoder = init_model()
@@ -83,10 +84,10 @@ if __name__ == "__main__":
     model, encoder = init_model()
     sample_df = pd.DataFrame([{
         "distance_km": 19.5,
-        "day_of_week": "Monday",
-        "hour": 14,
-        "Weather": "Clear",
-        "traffic_level": "Medium",
-        "is_weekend": 0
+        "day_of_week": "monday",
+        "hour": 2,
+        "Weather": "clear",
+        "traffic_level": "medium",
+        "is_weekend": 1
     }])
     print(predict_delivery(sample_df, model, encoder))

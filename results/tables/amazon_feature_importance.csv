@@ -1,0 +1,12 @@
+feature,importance
+Weather_Cloudy,0.35611585
+Weather_Windy,0.26248276
+Weather_Sandstorms,0.1478407
+Weather_Fog,0.13217366
+distance_km,0.036158532
+Weather_Stormy,0.015762381
+traffic_level,0.015385772
+Weather_Sunny,0.014373006
+day_of_week,0.010143442
+hour,0.009563841
+is_weekend,0.0
