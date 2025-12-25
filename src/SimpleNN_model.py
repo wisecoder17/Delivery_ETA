@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import os
 
 # Helper functions
 
@@ -12,7 +14,7 @@ def mse_loss(y_true, y_pred):
     return ((y_true - y_pred) ** 2).mean()
 
 # Neural Network for Regression
-class ScratchMLPRegressor:
+class SimpleNN:
     def __init__(self, input_size, hidden_size=10, lr=0.001, epochs=500):
         # Initialize weights
         self.lr = lr
@@ -47,13 +49,28 @@ class ScratchMLPRegressor:
 
     def fit(self, X, y, epochs=500):
         y = np.asarray(y).reshape(-1, 1)
-        
+        self.losses = []
         for epoch in range(epochs):
             y_pred = self.forward(X)
             loss = mse_loss(y, y_pred)
+            self.losses.append(loss)
             self.backward(X, y, y_pred)
             if epoch % 50 == 0:
                 print(f"Epoch {epoch}, Loss: {loss:.4f}")
 
     def predict(self, X):
         return self.forward(X).ravel()
+    
+    def plot_loss(self, save_dir="results/figures"):
+        os.makedirs(save_dir, exist_ok=True)
+        plt.figure(figsize=(8,5))
+        plt.plot(self.losses, label='Training Loss', color='blue')
+        plt.xlabel("Epochs")
+        plt.ylabel("MSE Loss")
+        plt.title("SimpleNN Training Loss vs Epochs")
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        path = f"{save_dir}/simple_nn_loss_curve.png"
+        plt.savefig(path)
+        print(f"SimpleNN Loss curve saved")

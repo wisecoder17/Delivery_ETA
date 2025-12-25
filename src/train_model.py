@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.ensemble import RandomForestRegressor
-from dl_model import ScratchMLPRegressor
+from SimpleNN_model import SimpleNN
 import xgboost as xgb
 
 
@@ -27,6 +27,7 @@ TARGET = "Delivery_Time"
 
 MODEL_DIR = "models"
 DATA_PATH = "data/processed/amazon_processed.csv"
+FIG_DIR   = "results/figures"
 
 os.makedirs(MODEL_DIR, exist_ok=True)
 
@@ -94,7 +95,7 @@ models["XGBoost"] = xgb.XGBRegressor(
     random_state=42
 )
 
-models["SimpleNN"] = ScratchMLPRegressor(
+models["SimpleNN"] = SimpleNN(
     input_size=X_train_final.shape[1],
     hidden_size=10,
     lr=0.001,
@@ -166,3 +167,7 @@ joblib.dump(best_model, f"{MODEL_DIR}/amazon_best_model.pkl")
 joblib.dump(encoder, f"{MODEL_DIR}/Weather_encoder.pkl")
 
 print("Model and encoder saved successfully.")
+
+# Plot Loss Curve for DL Model
+if "SimpleNN" in models:
+    models["SimpleNN"].plot_loss(save_dir=f"{FIG_DIR}")
