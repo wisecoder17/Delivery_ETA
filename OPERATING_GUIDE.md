@@ -92,8 +92,5 @@ This guide provides step-by-step instructions on how to operate the Delivery ETA
   ```bash
   pip install -r requirements.txt
   ```
-- Follow the sequence of operations as outlined above for optimal results.
-- Refer to the `notebooks/` directory for additional exploratory analysis and modeling insights.
 
----
 

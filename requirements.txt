@@ -4,9 +4,5 @@ scikit-learn
 matplotlib
 seaborn
 joblib
-flask
 xgboost
 haversine
-flask-cors
-requests
-# geopy
